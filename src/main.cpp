@@ -66,7 +66,7 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(pyi2em, m) {
     m.doc() = "I2EM library";
-    m.def("I2EM", &I2EM, R"
+    m.def("I2EM", &I2EM, R"pbdoc(
     
         Emissivity from I2EM model
 
@@ -88,7 +88,7 @@ PYBIND11_MODULE(pyi2em, m) {
     
         sp - type of surface correlation function (1) exponential (2) Gaussian, integer
 
-    ");
+    )pbdoc");
 
     m.def("test_I2EM", &test_I2EM, "test I2EM - pybind11");
 }

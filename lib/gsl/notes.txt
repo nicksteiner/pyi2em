@@ -1,6 +1,0 @@
-
-to compile:
-./configure --prefix=/w/mrs/codes/gsl-1.9/install
-make make install
-
-check that the stuff in /w/mrs/codes/gsl-1.9/install/lib is "new"

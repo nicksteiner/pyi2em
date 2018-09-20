@@ -5,7 +5,7 @@ This code calculates the emission from rough surfaces using the I2EM model
 Ulaby, F.T. and Long D.G.(2014), Microwave Radar and Radiometric Remote Sensing, The University of Michigan Press  
 
 ## Install  
-Requires: [CMake](https://cmake.org/), 
+Requires: [CMake](https://cmake.org/), [GSL](https://www.gnu.org/software/gsl/)  
 ```git clone https://github.com/nicksteiner/pyi2em```  
 ```pip install ./pyi2em```
 

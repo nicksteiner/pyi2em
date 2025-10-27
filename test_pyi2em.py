@@ -5,7 +5,7 @@ Test script for I2EM bistatic scattering model
 This demonstrates the use of the bistatic scattering model in pyi2em
 """
 
-import pyi2em
+import pyi2em as i2em
 import numpy as np
 
 def test_backscatter():
@@ -91,12 +91,12 @@ def test_bistatic():
     phs = 90.0
     
     # Set type of surface correlation function
-    correl_func = pyi2em.CORREL_EXPONENTIAL
+    correl_func = i2em.CORREL_EXPONENTIAL
     
     # Correlation coefficient
     xcoeff = 1.0
     
-    sigma0 = pyi2em.I2EM_Bistat(freq_ghz, rmsheight, correl_length, 
+    sigma0 = i2em.I2EM_Bistat(freq_ghz, rmsheight, correl_length, 
                                 thi, ths, phs, el, ei, 
                                 correl_func, xcoeff)
     
@@ -134,7 +134,7 @@ def test_angular_response():
     rmsheight = 0.008  # 0.8 cm
     
     # Set type of surface correlation function
-    correl_func = pyi2em.CORREL_GAUSSIAN
+    correl_func = i2em.CORREL_GAUSSIAN
     xcoeff = 1.0
     
     print(f"Frequency: {freq_ghz} GHz")
@@ -152,7 +152,7 @@ def test_angular_response():
         ths = thi
         phs = 180.0
 
-        sigma0 = pyi2em.I2EM_Bistat(freq_ghz, rmsheight, correl_length,
+        sigma0 = i2em.I2EM_Bistat(freq_ghz, rmsheight, correl_length,
                                     thi, ths, phs, el, ei,
                                     correl_func, xcoeff)
 
@@ -177,7 +177,7 @@ def test_with_default_params():
     ei = 2.5
     
     # Call with default correlation function (GAUSSIAN) and xcoeff (1.0)
-    sigma0 = pyi2em.I2EM_Bistat(freq_ghz, rmsheight, correl_length, 
+    sigma0 = i2em.I2EM_Bistat(freq_ghz, rmsheight, correl_length, 
                                 thi, ths, phs, el, ei)
     
     print(f"Using default correlation function (GAUSSIAN) and xcoeff (1.0)")
@@ -200,11 +200,11 @@ def test_periodic_surface():
     freq_ghz = 5.3
     rmsheight = 0.008   # 0.8 cm
     correl_length = 0.05 # 5 cm
-    correl_func = pyi2em.CORREL_GAUSSIAN
+    correl_func = i2em.CORREL_GAUSSIAN
     Gmm = 0.20  # period [m]
     A = 0.01    # amplitude [m]
 
-    s_vv, s_hh, s_vh = pyi2em.I2EM_Backscatter_Periodic(theta_0, phi_0, el, ei,
+    s_vv, s_hh, s_vh = i2em.I2EM_Backscatter_Periodic(theta_0, phi_0, el, ei,
                                                          freq_ghz, rmsheight, correl_length,
                                                          correl_func, Gmm, A)
     print(f"σ⁰_VV = {s_vv:.3f} dB, σ⁰_HH = {s_hh:.3f} dB, σ⁰_VH = {s_vh:.3f} dB")
@@ -221,10 +221,10 @@ def main():
     
     # Display available correlation functions
     print("Available correlation functions:")
-    print(f"  CORREL_EXPONENTIAL = {pyi2em.CORREL_EXPONENTIAL}")
-    print(f"  CORREL_GAUSSIAN = {pyi2em.CORREL_GAUSSIAN}")
-    print(f"  CORREL_X_POWER = {pyi2em.CORREL_X_POWER}")
-    print(f"  CORREL_X_EXPONENTIAL = {pyi2em.CORREL_X_EXPONENTIAL}")
+    print(f"  CORREL_EXPONENTIAL = {i2em.CORREL_EXPONENTIAL}")
+    print(f"  CORREL_GAUSSIAN = {i2em.CORREL_GAUSSIAN}")
+    print(f"  CORREL_X_POWER = {i2em.CORREL_X_POWER}")
+    print(f"  CORREL_X_EXPONENTIAL = {i2em.CORREL_X_EXPONENTIAL}")
     print()
     
     test_backscatter()

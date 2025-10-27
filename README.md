@@ -16,6 +16,11 @@ Wheels (recommended)
 pip install pyi2em
 ```
 
+Notes on wheels vs source builds
+
+- PyPI wheels bundle required native libraries, including GSL and the embedded cubature routines, so end users do not need to install system packages.
+- If you build from source, you must have GSL installed on your system and discoverable via pkg-config. The cubature integration code is compiled into the extension automatically.
+
 From source
 
 - Ubuntu: `sudo apt-get install -y cmake build-essential libgsl-dev`

@@ -101,7 +101,8 @@ jobs:
       - name: Build sdist
         run: python -m build --sdist
       - name: Publish (PyPI Trusted Publisher)
-        if: startsWith(github.ref, 'refs/tags/')
+        # Publish only on Linux runners; container actions aren't supported on macOS/Windows
+        if: startsWith(github.ref, 'refs/tags/') && runner.os == 'Linux'
         uses: pypa/gh-action-pypi-publish@v1.10.1
         with:
           skip-existing: true

@@ -1295,7 +1295,7 @@ void  vectors2(double Zx,double Zy,double th, double ph,
   double d0;
   double n[3], ni[3], x_pr[3], y_pr[3], z_pr[3], tmp[3];
   double norm_n, norm_ni, norm_tmp;
-  register int i;
+  int i;
   double costhpr, sinthpr;
 
   snt = sin(th);

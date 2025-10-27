@@ -34,7 +34,7 @@ jobs:
       - name: Build wheels
         env:
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
-          CIBW_SKIP: "pp* -musllinux_"
+          CIBW_SKIP: "*-musllinux_*"
           CIBW_ARCHS_MACOS: "${{ matrix.macos_arch || 'auto' }}"
           # Set macOS deployment target to match runner OS/arch to satisfy delocate
           CIBW_ENVIRONMENT_MACOS: "MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_target || '11.0' }}"
@@ -63,7 +63,10 @@ jobs:
           python -m venv /tmp/wenv
           . /tmp/wenv/bin/activate
           python -m pip install -U pip
-          python -m pip install dist/*manylinux*.whl
+          PYTAG=$(python -c 'import sys; print(f"cp{sys.version_info[0]}{sys.version_info[1]}")')
+          WHEEL=$(ls dist/pyi2em-*${PYTAG}-*manylinux*.whl | head -n1)
+          echo "Installing wheel: $WHEEL"
+          python -m pip install "$WHEEL"
           python - <<'PY'
           import pyi2em
           print("pyi2em import OK", pyi2em.__version__ if hasattr(pyi2em, "__version__") else "(no __version__)")
@@ -87,7 +90,10 @@ jobs:
           python -m venv /tmp/wenv
           . /tmp/wenv/bin/activate
           python -m pip install -U pip
-          python -m pip install dist/*macosx*.whl
+          PYTAG=$(python -c 'import sys; print(f"cp{sys.version_info[0]}{sys.version_info[1]}")')
+          WHEEL=$(ls dist/pyi2em-*${PYTAG}-*macosx*.whl | head -n1)
+          echo "Installing wheel: $WHEEL"
+          python -m pip install "$WHEEL"
           python - <<'PY'
           import pyi2em
           print("pyi2em import OK", pyi2em.__version__ if hasattr(pyi2em, "__version__") else "(no __version__)")

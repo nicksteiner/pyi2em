@@ -3,6 +3,9 @@ include(FetchContent)
 
 # Fetch cubature at build time (no system dep required for wheels)
 # Use git tag to avoid tarball hash drift on GitHub auto-generated archives.
+# Force a static build so our Python extension has no runtime dependency on
+# libcubature.so/.dylib (fixes ImportError in tests and simplifies wheels).
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
 FetchContent_Declare(
   cubature
   GIT_REPOSITORY https://github.com/stevengj/cubature.git
@@ -10,6 +13,12 @@ FetchContent_Declare(
   GIT_SHALLOW TRUE
 )
 FetchContent_MakeAvailable(cubature)
+
+# Ensure the static library is built with -fPIC so it can be linked into
+# our Python extension module on Linux.
+if(TARGET cubature)
+  set_target_properties(cubature PROPERTIES POSITION_INDEPENDENT_CODE ON)
+endif()
 
 pybind11_add_module(pyi2em
   bindings.cpp

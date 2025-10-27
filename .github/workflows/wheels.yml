@@ -11,7 +11,12 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+          - os: macos-13
+            macos_arch: x86_64
+          - os: macos-14
+            macos_arch: arm64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +33,7 @@ jobs:
         env:
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
           CIBW_SKIP: "pp* -musllinux_"
-          CIBW_ARCHS_MACOS: "x86_64 arm64"
+          CIBW_ARCHS_MACOS: "${{ matrix.macos_arch || 'auto' }}"
           CIBW_BEFORE_ALL_LINUX: |
             bash -exc '
               curl -L -o /tmp/gsl.tar.gz https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz

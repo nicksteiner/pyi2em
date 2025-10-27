@@ -1,25 +1,13 @@
-cmake_minimum_required(VERSION 3.0.0)
-project(em_i2em VERSION 0.1.0)
+cmake_minimum_required(VERSION 3.18)
+project(pyi2em LANGUAGES C CXX)
 
-include(CTest)
-enable_testing()
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set (CMAKE_CXX_STANDARD 11)
+find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+find_package(pybind11 CONFIG REQUIRED)
 
-find_library(GSL_LIBRARY      NAMES gsl)
-find_library(GSL_LIBRARY_BLAS NAMES gslcblas)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GSL REQUIRED gsl)
 
-include_directories(lib/cubature-1.0 lib/gsl src)
-
-set(PYBIND11_CPP_STANDARD -std=c++11)
-add_subdirectory(pybind11)
-
-set(SOURCES src/main.cpp lib/cubature-1.0/hcubature.c lib/cubature-1.0/pcubature.c src/em_i2em.cpp)
-
-pybind11_add_module(pyi2em SHARED ${SOURCES})
-
-target_link_libraries(pyi2em PRIVATE ${GSL_LIBRARY} ${GSL_LIBRARY_BLAS})
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+add_subdirectory(src)

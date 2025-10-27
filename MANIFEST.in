@@ -1,0 +1,6 @@
+include LICENSE
+include NOTICE
+include COPYING.GPL
+recursive-include src *.hpp *.h *.hh *.c *.cc *.cpp *.cu CMakeLists.txt
+recursive-include include *.hpp *.h
+global-exclude *.pyc _pycache_ *.pyo

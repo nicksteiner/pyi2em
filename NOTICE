@@ -1,0 +1,8 @@
+This package (pyi2em) provides Python bindings around the I2EM model
+originating at the University of Michigan Radar Remote Sensing Laboratory
+(I2EM; Ulaby & Long). Attribution: I2EM C implementation by the Michigan team.
+No claim is made to the original I2EM implementation beyond this wrapper.
+
+Binary wheels link against the GNU Scientific Library (GSL, GPL). Accordingly,
+distributed wheels are provided under GPL-3.0 terms. The wrapper source is MIT/BSD.
+Install from source if you need different linkage.

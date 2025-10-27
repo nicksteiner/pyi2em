@@ -58,12 +58,33 @@ class CMakeBuild(build_ext):
 
 setup(
     name='pyi2em',
-    version='0.0.1',
+    version='0.1.0',
     author='Nick Steiner',
     author_email='nick.steiner@gmail.com',
-    description='A I2EM library using pybind11 and CMake',
-    long_description='',
+    description='I2EM library for microwave scattering and emission from rough surfaces',
+    long_description=open('README.md').read() if os.path.exists('README.md') else '',
+    long_description_content_type='text/markdown',
+    url='https://github.com/nicksteiner/pyi2em',
     ext_modules=[CMakeExtension('pyi2em')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering :: Physics',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: C++',
+    ],
+    keywords='microwave radar remote-sensing i2em scattering emission bistatic',
+    python_requires='>=3.6',
+    install_requires=[
+        # Dependencies are handled by the system (GSL, etc.)
+    ],
 )

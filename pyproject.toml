@@ -1,0 +1,26 @@
+[build-system]
+requires = ["scikit-build-core>=0.9", "pybind11>=2.12"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pyi2em"
+version = "0.1.0"
+description = "Python bindings for the I2EM surface scattering/emissivity model"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name="Nick Steiner", email="nick.steiner@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: POSIX :: Linux",
+]
+
+[project.urls]
+Homepage = "https://github.com/nicksteiner/pyi2em"
+
+[tool.scikit-build]
+cmake.minimum-version = "3.18"
+build-dir = "build/{wheel_tag}"
+wheel.expand-macos-universal-tags = true

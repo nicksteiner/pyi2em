@@ -1,16 +1,13 @@
 ![Tests](https://github.com/nicksteiner/pyi2em/actions/workflows/tests.yml/badge.svg?branch=master)
 
-![Tests](https://github.com/nicksteiner/pyi2em/actions/workflows/tests.yml/badge.svg?branch=master)
+# pyi2em
 
-# I2EM Python Library
+Python bindings for the I2EM rough-surface scattering and emissivity model.
 
-This code calculates the emission from rough surfaces using the I2EM model          
-
-Ulaby, F.T. and Long D.G.(2014), Microwave Radar and Radiometric Remote Sensing, The University of Michigan Press  
+Reference: Ulaby, F.T. and Long, D.G. (2014). Microwave Radar and Radiometric Remote Sensing. University of Michigan Press.
 
 ## Install
 
-Wheels (recommended)
 
 ```bash
 pip install pyi2em
@@ -18,8 +15,8 @@ pip install pyi2em
 
 Notes on wheels vs source builds
 
-- PyPI wheels bundle required native libraries, including GSL and the embedded cubature routines, so end users do not need to install system packages.
-- If you build from source, you must have GSL installed on your system and discoverable via pkg-config. The cubature integration code is compiled into the extension automatically.
+- PyPI wheels bundle required native libraries, including GSL and embedded cubature routines. End users do not need system packages.
+- Source builds require GSL available via pkg-config. The cubature integration code is compiled into the extension automatically.
 
 From source
 
@@ -43,118 +40,72 @@ pytest -q
 
 ## Usage
 
-### Emissivity Calculation
+The high-level Python API exposes three functions. Units are GHz, meters, and degrees throughout.
+
+1) Emissivity
 
 ```python
-    
-import pyi2em
+from pyi2em import emissivity
 
-#set frequency in ghz
-fr = 3.0
-
-# set complex dielectric of the soil
-el = 11.3
-ei = 1.5
-
-# set correlation length [m]
-l = 0.10  # 10 cm
-
-# set standard deviation of the surface height variation (rms) [m]
-sig = 0.0025  # .25 cm
-
-# set incidence angle [deg]
-theta_d = 30.0
-
-# set type of surface correlation function (1) exponential (2) Gaussian
-sp = 2
-
-e_ = pyi2em.I2EM(fr, sig, l, theta_d, el, ei, sp)
-
-print("FREQ: 3.0 [GHZ], CDC: 11.3 + i1.5, CL: 10 [cm], RMS: .25 [cm], INC: 30 [deg], CORRF: Gaussian")
-
-print("EMISSIVITY: {:g} [V], {:g} [H]".format(*e_))
-```
-```
-FREQ: 3.0 [GHZ], CDC: 11.3 + i1.5, CL: 10 [cm], RMS: .25 [cm], INC: 30 [deg], CORRF: Gaussian
-Emissivity: 0.646743 [V], 0.75031 [H]
+eh, ev = emissivity(
+    freq_ghz=5.3,
+    rms_height_m=0.0025,
+    corr_length_m=0.10,
+    theta_deg=30.0,
+    er_complex=complex(11.3, 1.5),
+    correl="gaussian",         # 'exponential' | 'gaussian' | 'x_power' | 'x_exponential'
+)
+print(eh, ev)  # linear emissivities
 ```
 
-### Bistatic Scattering 
+2) Monostatic backscatter (scalar or array incidence)
 
 ```python
-import pyi2em
+import numpy as np
+from pyi2em import sigma0_backscatter
 
-# Set frequency in GHz
-freq_ghz = 5.0
-
-# Set complex dielectric constant
-el = 15.0  # real part
-ei = 3.0   # imaginary part
-
-# Set correlation length [m]
-correl_length = 0.05  # 5 cm
-
-# Set standard deviation of surface height variation (rms) [m]
-rmsheight = 0.01  # 1 cm
-
-# Set incident and scatter angles [degrees]
-thi = 40.0    # incident angle
-ths = 40.0    # scatter angle (same as incident for backscatter)
-phs = 180.0   # scatter azimuth angle (180° for backscatter)
-
-# Set correlation function type
-correl_func = pyi2em.CORREL_GAUSSIAN
-
-# Get bistatic scattering coefficients
-sigma0 = pyi2em.I2EM_Bistat(freq_ghz, rmsheight, correl_length,
-                            thi, ths, phs, el, ei, correl_func)
-
-print(f"σ⁰_HH = {sigma0[0]:.3f} dB")
-print(f"σ⁰_VV = {sigma0[1]:.3f} dB")
+thetas = np.array([20.0, 30.0, 40.0])
+sig = sigma0_backscatter(
+    freq_ghz=5.0,
+    rms_height_m=0.01,
+    corr_length_m=0.05,
+    theta_deg=thetas,                 # scalar or array
+    er_complex=complex(15.0, 3.0),
+    correl="gaussian",
+    include_hv=True,
+    return_db=True,                   # return dB (default)
+)
+print(sig["hh"], sig["vv"], sig["hv"])  # arrays in dB
 ```
 
-#### Available Correlation Functions
-
-- `pyi2em.CORREL_EXPONENTIAL` (1) - Exponential correlation function
-- `pyi2em.CORREL_GAUSSIAN` (2) - Gaussian correlation function  
-- `pyi2em.CORREL_X_POWER` (3) - Power law correlation function
-- `pyi2em.CORREL_X_EXPONENTIAL` (4) - Exponential power correlation function
-
-For more examples, see `test_bistat.py`
-
-### Backscatter, Single-Scale Random Surface
+3) Bistatic backscatter
 
 ```python
-import pyi2em
+from pyi2em import sigma0_bistatic
 
-freq_ghz = 5.0
-rmsheight = 0.01      # m
-correl_length = 0.05  # m
-theta = 40.0          # deg
-el, ei = 15.0, 3.0
-
-# [HH_dB, VV_dB, HV_dB or NaN]
-sigma0 = pyi2em.I2EM_Backscatter_Single(freq_ghz, rmsheight, correl_length,
-                                        theta, el, ei,
-                                        pyi2em.CORREL_GAUSSIAN, 1.0, False)
+sig = sigma0_bistatic(
+    freq_ghz=5.0,
+    rms_height_m=0.01,
+    corr_length_m=0.05,
+    thi_deg=40.0,
+    ths_deg=40.0,
+    phs_deg=180.0,
+    er_complex=complex(15.0, 3.0),
+    correl="gaussian",
+    xcoeff=1.0,
+    return_db=True,
+)
+print(sig["hh"], sig["vv"])  # dB
 ```
 
-### Backscatter, Periodic Sinusoidal Surface
+Correlation options: 'exponential' | 'gaussian' | 'x_power' | 'x_exponential'.
 
-```python
-import pyi2em
+Notes
+- sigma0_* return dB by default; set return_db=False for linear values.
+- sigma0_backscatter(theta_deg=...) accepts a scalar or a NumPy array.
+- emissivity returns linear values in [0, 1].
 
-theta_0, phi_0 = 30.0, 0.0  # deg
-el, ei = 12.0, 2.0
-freq_ghz = 5.3
-rmsheight = 0.008    # m
-correl_length = 0.05 # m
-Gmm = 0.20           # period [m]
-A = 0.01             # amplitude [m]
+## License and Notices
 
-# [VV_dB, HH_dB, VH_dB]
-sigma0 = pyi2em.I2EM_Backscatter_Periodic(theta_0, phi_0, el, ei,
-                                          freq_ghz, rmsheight, correl_length,
-                                          pyi2em.CORREL_GAUSSIAN,
-                                          Gmm, A)
-```
+- Wrapper: MIT (see `LICENSE`)
+- GSL: GPL-licensed dependency; the `NOTICE` and `COPYING.GPL` files are included.

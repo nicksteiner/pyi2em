@@ -9,9 +9,6 @@ permissions:
 
 jobs:
   build:
-    # Named environment for PyPI Trusted Publishers (optional)
-    environment:
-      name: pypi
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]

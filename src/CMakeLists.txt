@@ -2,10 +2,12 @@
 include(FetchContent)
 
 # Fetch cubature at build time (no system dep required for wheels)
+# Use git tag to avoid tarball hash drift on GitHub auto-generated archives.
 FetchContent_Declare(
   cubature
-  URL https://github.com/stevengj/cubature/archive/refs/tags/v1.0.4.tar.gz
-  URL_HASH SHA256=8f3fc3b2fa5474f9c6d3f2c8374e036f7a205b786c396f26faa9c67806bfe5a6
+  GIT_REPOSITORY https://github.com/stevengj/cubature.git
+  GIT_TAG v1.0.4
+  GIT_SHALLOW TRUE
 )
 FetchContent_MakeAvailable(cubature)
 

@@ -26,3 +26,9 @@ target_link_libraries(pyi2em PRIVATE ${GSL_LIBRARIES} cubature)
 if(NOT MSVC)
   target_compile_options(pyi2em PRIVATE -fvisibility=hidden)
 endif()
+
+# Install the extension at the top-level of the wheel (importable as `pyi2em`)
+install(TARGETS pyi2em
+  LIBRARY DESTINATION .
+  ARCHIVE DESTINATION .
+  RUNTIME DESTINATION .)

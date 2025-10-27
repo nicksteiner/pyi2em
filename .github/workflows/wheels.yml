@@ -3,8 +3,15 @@ on:
   push: { tags: ["v*"] }
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   build:
+    # Named environment for PyPI Trusted Publishers (optional)
+    environment:
+      name: pypi
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
@@ -25,11 +32,11 @@ jobs:
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
           CIBW_SKIP: "pp* -musllinux_"
           CIBW_ARCHS_MACOS: "x86_64 arm64"
-        run: python -m cibuildwheel --output-dir wheelhouse
+        run: python -m cibuildwheel --output-dir dist
       - name: Build sdist
         run: python -m build --sdist
-      - name: Publish
+      - name: Publish (PyPI Trusted Publisher)
         if: startsWith(github.ref, 'refs/tags/')
         uses: pypa/gh-action-pypi-publish@v1.10.1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true

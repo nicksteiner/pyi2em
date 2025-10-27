@@ -18,8 +18,7 @@ pybind11_add_module(pyi2em
   bindings.cpp
   em_i2em.cpp
   ${cubature_SOURCE_DIR}/hcubature.c
-  ${cubature_SOURCE_DIR}/pcubature.c
-  ${cubature_SOURCE_DIR}/clencurt_gen.c)
+  ${cubature_SOURCE_DIR}/pcubature.c)
 
 target_include_directories(pyi2em PRIVATE
   ${GSL_INCLUDE_DIRS}

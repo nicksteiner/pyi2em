@@ -15,8 +15,10 @@ jobs:
           - os: ubuntu-latest
           - os: macos-13
             macos_arch: x86_64
+            macos_target: "13.0"
           - os: macos-14
             macos_arch: arm64
+            macos_target: "14.0"
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -34,6 +36,8 @@ jobs:
           CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
           CIBW_SKIP: "pp* -musllinux_"
           CIBW_ARCHS_MACOS: "${{ matrix.macos_arch || 'auto' }}"
+          # Set macOS deployment target to match runner OS/arch to satisfy delocate
+          CIBW_ENVIRONMENT_MACOS: "MACOSX_DEPLOYMENT_TARGET=${{ matrix.macos_target || '11.0' }}"
           CIBW_BEFORE_ALL_LINUX: |
             bash -exc '
               curl -L -o /tmp/gsl.tar.gz https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz

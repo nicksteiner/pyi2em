@@ -1,18 +1,33 @@
+![Tests](https://github.com/nicksteiner/pyi2em/actions/workflows/tests.yml/badge.svg?branch=master)
+
 # I2EM Python Library
 
 This code calculates the emission from rough surfaces using the I2EM model          
 
 Ulaby, F.T. and Long D.G.(2014), Microwave Radar and Radiometric Remote Sensing, The University of Michigan Press  
 
-## Install  
-Requires: [CMake](https://cmake.org/), [GSL](https://www.gnu.org/software/gsl/)  
-```git clone https://github.com/nicksteiner/pyi2em```  
-```pip install ./pyi2em```
+## Install
+
+Wheels (recommended)
+
+```bash
+pip install pyi2em
+```
+
+From source
+
+- Ubuntu: `sudo apt-get install -y cmake build-essential libgsl-dev`
+- macOS: `brew install cmake gsl`
+
+Then
+
+```bash
+pip install .
+```
 
 ## Test
 ```bash
-cd pyi2em
-python3 test_i2em.py
+pytest -q
 ```
 
 ## Usage

@@ -1,0 +1,37 @@
+name: tests
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: pytest (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: System deps (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgsl-dev cmake build-essential
+      - name: System deps (macOS)
+        if: runner.os == 'macOS'
+        run: brew update && brew install gsl cmake
+      - name: Install Python deps
+        run: |
+          python -m pip install -U pip
+          python -m pip install numpy pytest build
+      - name: Build and install package
+        run: |
+          python -m pip install .
+      - name: Run tests
+        run: pytest -q

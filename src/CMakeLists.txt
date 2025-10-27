@@ -11,15 +11,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(cubature)
 
-set(CUBATURE_SRC
-  ${cubature_SOURCE_DIR}/hcubature.c
-  ${cubature_SOURCE_DIR}/pcubature.c
-  ${cubature_SOURCE_DIR}/clencurt_gen.c)
-
 pybind11_add_module(pyi2em
   bindings.cpp
-  em_i2em.cpp
-  ${CUBATURE_SRC})
+  em_i2em.cpp)
 
 target_include_directories(pyi2em PRIVATE
   ${GSL_INCLUDE_DIRS}
@@ -27,7 +21,7 @@ target_include_directories(pyi2em PRIVATE
   ${cubature_SOURCE_DIR})
 
 target_link_directories(pyi2em PRIVATE ${GSL_LIBRARY_DIRS})
-target_link_libraries(pyi2em PRIVATE ${GSL_LIBRARIES})
+target_link_libraries(pyi2em PRIVATE ${GSL_LIBRARIES} cubature)
 
 if(NOT MSVC)
   target_compile_options(pyi2em PRIVATE -fvisibility=hidden)

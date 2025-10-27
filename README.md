@@ -27,6 +27,10 @@ Then
 pip install .
 ```
 
+Note: The cubature library (hcubature/pcubature) is fetched automatically during
+build; you do not need to install a system package for it. GSL remains a system
+dependency for source builds.
+
 ## Test
 ```bash
 pytest -q

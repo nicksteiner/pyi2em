@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared -Wl,-soname,pyi2em.cpython-36m-x86_64-linux-gnu.so -o pyi2em.cpython-36m-x86_64-linux-gnu.so CMakeFiles/pyi2em.dir/src/main.cpp.o CMakeFiles/pyi2em.dir/lib/cubature-1.0/hcubature.c.o CMakeFiles/pyi2em.dir/lib/cubature-1.0/pcubature.c.o CMakeFiles/pyi2em.dir/src/em_i2em.cpp.o -flto -lgsl -lgslcblas 

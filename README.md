@@ -1,5 +1,7 @@
 ![Tests](https://github.com/nicksteiner/pyi2em/actions/workflows/tests.yml/badge.svg?branch=master)
 
+![Tests](https://github.com/nicksteiner/pyi2em/actions/workflows/tests.yml/badge.svg?branch=master)
+
 # I2EM Python Library
 
 This code calculates the emission from rough surfaces using the I2EM model          

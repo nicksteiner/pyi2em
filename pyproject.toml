@@ -20,7 +20,11 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/nicksteiner/pyi2em"
 
+[project.optional-dependencies]
+double-bounce = ["numpy"]
+
 [tool.scikit-build]
 cmake.minimum-version = "3.18"
 build-dir = "build/{wheel_tag}"
 wheel.expand-macos-universal-tags = true
+wheel.py-modules = ["double_bounce"]

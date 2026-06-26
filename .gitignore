@@ -22,3 +22,6 @@ bld/
 .mypy_cache/
 .pytest_cache/
 
+# pixi: commit pixi.lock, ignore the generated environment
+.pixi/
+

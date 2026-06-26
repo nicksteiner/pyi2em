@@ -30,9 +30,9 @@ def test_backscatter_vs_bistatic_equivalence():
 
     assert np.isfinite(back["hh"]).all() and np.isfinite(back["vv"]).all()
     assert np.isfinite(bi["hh"]) and np.isfinite(bi["vv"]) 
-    # back arrays may be 0-d arrays; convert to float
-    hh_back = float(np.asarray(back["hh"]))
-    vv_back = float(np.asarray(back["vv"]))
+    # back values may be 0-d or 1-element arrays (scalar theta); take first element
+    hh_back = float(np.asarray(back["hh"]).reshape(-1)[0])
+    vv_back = float(np.asarray(back["vv"]).reshape(-1)[0])
     assert np.isclose(hh_back, bi["hh"], atol=1e-6)
     assert np.isclose(vv_back, bi["vv"], atol=1e-6)
 

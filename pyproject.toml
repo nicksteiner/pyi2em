@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "pyi2em"
-version = "0.1.4"
+version = "0.1.5"
 description = "Python bindings for the I2EM surface scattering/emissivity model"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -24,7 +24,41 @@ Homepage = "https://github.com/nicksteiner/pyi2em"
 double-bounce = ["numpy"]
 
 [tool.scikit-build]
-cmake.minimum-version = "3.18"
+cmake.version = ">=3.18"
 build-dir = "build/{wheel_tag}"
 wheel.expand-macos-universal-tags = true
-wheel.py-modules = ["double_bounce"]
+wheel.packages = ["double_bounce.py"]
+
+# ---------------------------------------------------------------------------
+# pixi: reproducible build/dev/runtime environment (conda-forge under the hood)
+# ---------------------------------------------------------------------------
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+
+# Native build toolchain + libraries that pip/scikit-build cannot provide.
+[tool.pixi.dependencies]
+python = ">=3.9"
+cmake = ">=3.18"
+ninja = "*"
+pkg-config = "*"
+cxx-compiler = "*"
+gsl = "*"
+pybind11 = ">=2.12"
+scikit-build-core = ">=0.9"
+numpy = "*"          # runtime dep of the double_bounce extra
+pytest = "*"
+pip = "*"            # used by the `rebuild` task
+
+# Install pyi2em itself as an editable build into the environment.
+[tool.pixi.pypi-dependencies]
+pyi2em = { path = ".", editable = true }
+
+# pyi2em is installed (editable) via [tool.pixi.pypi-dependencies] when the
+# environment is created, so tasks can import it directly. `rebuild` forces a
+# fresh native compile after editing C++ sources.
+[tool.pixi.tasks]
+test = "pytest"
+validate = "python validate_acceptance.py"
+example = "python example.py"
+rebuild = "pip install --no-build-isolation --force-reinstall -e ."

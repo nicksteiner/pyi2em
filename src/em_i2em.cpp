@@ -948,7 +948,7 @@ int xpol_integrand(unsigned ndim, const double *x, void *params,
   kl2  = ((double *)params)[5];
   L  = ((double *)params)[6];
   //er = ((double *)params)[7] + (((double *)params)[8])*I;
-  cdouble er (((double *)params)[2],  (((double *)params)[3]));
+  cdouble er (((double *)params)[7],  (((double *)params)[8]));
   rss  = ((double *)params)[9];
   //rvh = ((double *)params)[10] + (((double *)params)[11])*I;
   cdouble rvh (((double *)params)[10],  (((double *)params)[11]));

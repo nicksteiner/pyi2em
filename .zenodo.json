@@ -1,0 +1,37 @@
+{
+  "title": "pyi2em: Python bindings for the I2EM rough-surface scattering and emissivity model",
+  "description": "pyi2em provides Python bindings for the Improved Integral Equation Model (I2EM) of microwave backscatter and emission from rough surfaces, as described in Ulaby and Long (2014), Microwave Radar and Radiometric Remote Sensing. The package wraps the C implementation with pybind11, ships binary wheels on PyPI with bundled GSL and cubature integration, and includes a double-bounce helper for combined surface and trunk scattering. Intended for SAR and radiometer forward modeling of soil and surface scattering.",
+  "upload_type": "software",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Steiner, Nicholas C.",
+      "affiliation": "The City College of New York, City University of New York",
+      "orcid": "0000-0001-5943-8400"
+    }
+  ],
+  "keywords": [
+    "I2EM",
+    "integral equation model",
+    "rough surface scattering",
+    "microwave emissivity",
+    "radar backscatter",
+    "synthetic aperture radar",
+    "radiative transfer",
+    "Python"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/nicksteiner/pyi2em",
+      "relation": "isSupplementTo",
+      "resource_type": "software",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://pypi.org/project/pyi2em/",
+      "relation": "isIdenticalTo",
+      "scheme": "url"
+    }
+  ],
+  "access_right": "open"
+}

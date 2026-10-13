@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use pyi2em, please cite it as below."
+title: "pyi2em: Python bindings for the I2EM rough-surface scattering and emissivity model"
+type: software
+authors:
+  - family-names: Steiner
+    given-names: Nicholas C.
+    orcid: "https://orcid.org/0000-0001-5943-8400"
+    affiliation: "The City College of New York, City University of New York"
+version: 0.1.5
+date-released: 2026-10-13
+license: MIT
+repository-code: "https://github.com/nicksteiner/pyi2em"
+url: "https://pypi.org/project/pyi2em/"
+references:
+  - type: book
+    title: "Microwave Radar and Radiometric Remote Sensing"
+    authors:
+      - family-names: Ulaby
+        given-names: Fawwaz T.
+      - family-names: Long
+        given-names: David G.
+    year: 2014
+    publisher:
+      name: University of Michigan Press
+keywords:
+  - I2EM
+  - rough surface scattering
+  - microwave emissivity
+  - radar backscatter

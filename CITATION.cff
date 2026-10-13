@@ -7,7 +7,7 @@ authors:
     given-names: Nicholas C.
     orcid: "https://orcid.org/0000-0001-5943-8400"
     affiliation: "The City College of New York, City University of New York"
-version: 0.1.5
+version: 0.1.6
 date-released: 2026-10-13
 license: MIT
 repository-code: "https://github.com/nicksteiner/pyi2em"
